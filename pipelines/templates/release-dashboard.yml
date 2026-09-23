@@ -1,0 +1,9 @@
+steps:
+  - script: |
+      chmod +x tests/reporting/generate-cross-environment-report.sh
+      ./tests/reporting/generate-cross-environment-report.sh
+    displayName: 'Aggregate Cross-Environment Quality Summary'
+
+  - template: publish-report.yml
+    parameters:
+      reportTitle: 'Production Release Verification Dashboard'

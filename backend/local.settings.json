@@ -1,0 +1,18 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "OpenWeatherApiKey": "SET_IN_AZURE_KEY_VAULT",
+    "CosmosDbConnectionString": "AccountEndpoint=https://cdb-weather-prod.documents.azure.com:443/;AccountKey=SET_IN_VAULT;",
+    "CosmosDbDatabaseName": "WeatherIntelligenceDB",
+    "CosmosDbContainerName": "FavoriteCities",
+    "AzureOpenAIEndpoint": "https://oai-weather-intelligence.openai.azure.com/",
+    "AzureOpenAIApiKey": "SET_IN_AZURE_KEY_VAULT",
+    "AzureOpenAIDeploymentName": "gpt-4o",
+    "APPLICATIONINSIGHTS_CONNECTION_STRING": "InstrumentationKey=00000000-0000-0000-0000-000000000000"
+  },
+  "Host": {
+    "CORS": "*"
+  }
+}

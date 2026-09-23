@@ -1,0 +1,14 @@
+parameters:
+  - name: environment
+    type: string
+
+steps:
+  - script: |
+      chmod +x tests/smoke/api-contract-tests.sh
+      ./tests/smoke/api-contract-tests.sh --env=${{ parameters.environment }} --quality-threshold=$(qualityThreshold)
+    displayName: 'Execute Automated API Contract Tests'
+
+  - script: |
+      chmod +x tests/smoke/ui-smoke-tests.sh
+      ./tests/smoke/ui-smoke-tests.sh --env=${{ parameters.environment }}
+    displayName: 'Execute Automated Headless UI Smoke Tests'

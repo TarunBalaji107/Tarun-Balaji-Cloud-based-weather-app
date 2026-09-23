@@ -1,0 +1,18 @@
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.11'
+    displayName: 'Provision Python 3.11'
+
+  - task: Cache@2
+    inputs:
+      key: 'python | "$(Agent.OS)" | tests/reporting/requirements.txt'
+      restoreKeys: |
+        python | "$(Agent.OS)"
+      path: $(PIP_CACHE_DIR)
+    displayName: 'Cache Python Dependencies'
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r tests/reporting/requirements.txt
+    displayName: 'Install Reporting Tools'

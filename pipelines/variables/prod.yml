@@ -1,0 +1,7 @@
+variables:
+  environmentName: 'prod'
+  resourceGroupName: 'rg-weather-intelligence-prod'
+  functionAppName: 'func-weather-intel-prod'
+  apiUrl: 'https://func-weather-intel-prod.azurewebsites.net'
+  frontendUrl: 'https://weather-intelligence.io'
+  qualityThreshold: 98

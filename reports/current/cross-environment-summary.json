@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-09-23T10:00:00Z",
+  "environments": [
+    {
+      "name": "Dev",
+      "version": "v2.4.1-preview",
+      "status": "Healthy",
+      "passRate": 96.0,
+      "qualityScore": 92,
+      "latencyAvgMs": 52
+    },
+    {
+      "name": "QA",
+      "version": "v2.4.0-rc3",
+      "status": "Healthy",
+      "passRate": 98.4,
+      "qualityScore": 96,
+      "latencyAvgMs": 44
+    },
+    {
+      "name": "Prod",
+      "version": "v2.4.0",
+      "status": "Healthy",
+      "passRate": 100.0,
+      "qualityScore": 99,
+      "latencyAvgMs": 38
+    }
+  ]
+}

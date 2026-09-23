@@ -1,0 +1,18 @@
+parameters:
+  - name: reportTitle
+    type: string
+    default: 'Smoke Test Quality Report'
+
+steps:
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/test-results.xml'
+      testRunTitle: '${{ parameters.reportTitle }}'
+    displayName: 'Publish Test Results to Azure DevOps'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: 'reports/current'
+      ArtifactName: 'executive-quality-reports'
+    displayName: 'Publish Quality Reports Artifact'

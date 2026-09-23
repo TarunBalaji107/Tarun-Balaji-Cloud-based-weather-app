@@ -1,0 +1,32 @@
+[
+  {
+    "releaseId": "rel-2026-09-22-01",
+    "version": "v2.4.0",
+    "environment": "Prod",
+    "deployedAt": "2026-09-22T18:40:00Z",
+    "qualityScore": 99,
+    "smokePassRate": 100.0,
+    "commitHash": "9b3c41a",
+    "changeSummary": "Azure OpenAI GPT-4o weather hazard risk model and Cosmos DB autoscale partition optimization."
+  },
+  {
+    "releaseId": "rel-2026-09-18-02",
+    "version": "v2.3.9",
+    "environment": "Prod",
+    "deployedAt": "2026-09-18T14:15:00Z",
+    "qualityScore": 97,
+    "smokePassRate": 98.4,
+    "commitHash": "8f1a20d",
+    "changeSummary": "Air quality index (AQI) satellite stream ingestion and hourly synoptic projection."
+  },
+  {
+    "releaseId": "rel-2026-09-12-01",
+    "version": "v2.3.8",
+    "environment": "Prod",
+    "deployedAt": "2026-09-12T09:30:00Z",
+    "qualityScore": 96,
+    "smokePassRate": 97.6,
+    "commitHash": "6e9021b",
+    "changeSummary": "Initial isolated worker .NET 8 migration for Azure Functions."
+  }
+]

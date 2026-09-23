@@ -1,0 +1,114 @@
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+  paths:
+    exclude:
+      - docs/*
+      - README.md
+
+pr:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  # =========================================================================
+  # STAGE 1: BUILD & VALIDATE (CI)
+  # =========================================================================
+  - stage: Build
+    displayName: 'Build, Lint & Test'
+    jobs:
+      - job: FrontendBuild
+        displayName: 'React Frontend Build'
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '20.x'
+          - script: npm ci
+            displayName: 'Install Dependencies'
+          - script: npm run build
+            displayName: 'Compile Production Bundle'
+
+      - job: BackendBuild
+        displayName: '.NET 8 Function App Build'
+        steps:
+          - task: UseDotNet@2
+            inputs:
+              packageType: 'sdk'
+              version: '8.x'
+          - script: dotnet restore ./backend/WeatherDashboardAPI.csproj
+            displayName: 'Restore NuGet Packages'
+          - script: dotnet build ./backend/WeatherDashboardAPI.csproj --configuration Release --no-restore
+            displayName: 'Build C# Solution'
+          - script: dotnet publish ./backend/WeatherDashboardAPI.csproj -c Release -o $(Build.ArtifactStagingDirectory)/functionapp
+            displayName: 'Publish Function App Artifact'
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/functionapp'
+              ArtifactName: 'functionapp'
+
+  # =========================================================================
+  # STAGE 2: DEPLOY TO DEV & RUN AUTOMATED SMOKE TESTS
+  # =========================================================================
+  - stage: DeployDev
+    displayName: 'Deploy -> Development (Dev)'
+    dependsOn: Build
+    condition: succeeded()
+    variables:
+      - template: variables/dev.yml
+    jobs:
+      - deployment: DeployDevApp
+        environment: 'weather-dev'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: templates/smoke-tests.yml
+                  parameters:
+                    environment: 'dev'
+
+  # =========================================================================
+  # STAGE 3: DEPLOY TO QA & RUN EXTENDED INTEGRATION
+  # =========================================================================
+  - stage: DeployQA
+    displayName: 'Deploy -> Quality Assurance (QA)'
+    dependsOn: DeployDev
+    condition: succeeded()
+    variables:
+      - template: variables/qa.yml
+    jobs:
+      - deployment: DeployQAApp
+        environment: 'weather-qa'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: templates/smoke-tests.yml
+                  parameters:
+                    environment: 'qa'
+
+  # =========================================================================
+  # STAGE 4: PRODUCTION APPROVAL & BLUE/GREEN SWAP
+  # =========================================================================
+  - stage: DeployProd
+    displayName: 'Deploy -> Production (Prod)'
+    dependsOn: DeployQA
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    variables:
+      - template: variables/prod.yml
+    jobs:
+      - deployment: DeployProdApp
+        environment: 'weather-prod'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: templates/smoke-tests.yml
+                  parameters:
+                    environment: 'prod'
+                - template: templates/release-dashboard.yml

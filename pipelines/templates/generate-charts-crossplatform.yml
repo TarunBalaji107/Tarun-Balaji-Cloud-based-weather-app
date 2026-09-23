@@ -1,0 +1,11 @@
+parameters:
+  - name: environment
+    type: string
+
+steps:
+  - script: |
+      python tests/reporting/generate-charts.py \
+        --env ${{ parameters.environment }} \
+        --input reports/current/cross-environment-summary.json \
+        --output-dir $(Build.ArtifactStagingDirectory)/charts
+    displayName: 'Generate Cross-Platform Telemetry Visualizations'

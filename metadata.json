@@ -1,0 +1,6 @@
+{
+  "name": "Cloud Weather Intelligence Platform",
+  "description": "Enterprise cloud weather intelligence and telemetry platform with multi-region forecasts, AI insights, cloud operations monitoring, and release center.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

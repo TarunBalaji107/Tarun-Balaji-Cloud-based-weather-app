@@ -1,0 +1,7 @@
+variables:
+  environmentName: 'qa'
+  resourceGroupName: 'rg-weather-intelligence-qa'
+  functionAppName: 'func-weather-intel-qa'
+  apiUrl: 'https://func-weather-intel-qa.azurewebsites.net'
+  frontendUrl: 'https://qa.weather-intelligence.io'
+  qualityThreshold: 95
